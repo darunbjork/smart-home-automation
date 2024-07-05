@@ -1,0 +1,30 @@
+.welcome-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .welcome-title {
+    font-size: 2.5em;
+    color: #333;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }
+  
+  .welcome-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .welcome-button:hover {
+    background-color: #0056b3;
+  }
+  
