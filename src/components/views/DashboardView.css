@@ -1,0 +1,20 @@
+/* src/components/views/DashboardView.css */
+.dashboard-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.device-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  margin-left: 10px;
+}

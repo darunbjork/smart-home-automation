@@ -1,0 +1,20 @@
+/* src/components/device-card/device-card.css */
+.device-card {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.device-icon {
+  margin-bottom: 16px;
+}
+
+.device-card button {
+  padding: 8px 16px;
+  font-size: 16px;
+  margin-top: 16px;
+}

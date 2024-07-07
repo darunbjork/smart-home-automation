@@ -46,7 +46,7 @@ const SignUp = () => {
         </label>
         <label>
           Password:
-          <input type="password" name="Password" value={formData.Password} onChange={handleChange} required />
+          <input type="password" name="Password" value={formData.Password} onChange={handleChange} required autoComplete="current-password" />
         </label>
         <label>
           Email:

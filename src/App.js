@@ -6,6 +6,7 @@ import Login from './components/Login/Login';
 import Profile from './components/Profile/Profile';
 import NavBar from './components/NavBar/NavBar';
 import Welcome from './components/Welcome/Welcome';
+import DashboardView from './components/views/DashboardView';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard" element={<DashboardView />} />
         </Routes>
       </Router>
     </AuthProvider>

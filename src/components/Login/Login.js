@@ -47,7 +47,7 @@ const Login = ({ onLogin }) => {
         </label>
         <label>
           Password:
-          <input type="password" name="Password" value={formData.Password} onChange={handleChange} required />
+          <input type="password" name="Password" value={formData.Password} onChange={handleChange} required autoComplete="new-password" />
         </label>
         <button type="submit">Login</button>
         {error && <div className="error">{error}</div>}
