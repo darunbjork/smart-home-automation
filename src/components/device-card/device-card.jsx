@@ -1,10 +1,31 @@
-// src/components/device-card/device-card.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faLightbulb, 
+  faThermometerHalf, 
+  faPlug, 
+  faVideo, 
+  faLock, 
+  faVolumeUp, 
+  faBlender, 
+  faTrash, 
+  faBell, 
+  faFan, 
+  faTachometerAlt, 
+  faDoorOpen, 
+  faCloudSun, 
+  faCoffee, 
+  faPaw, 
+  faTv, 
+  faSprayCan
+} from '@fortawesome/free-solid-svg-icons';
 import './device-card.css';
 
 const DeviceCard = ({ device, onStatusChange }) => {
+  const [brightness, setBrightness] = useState(device.Brightness || 50);
+
   const handleStatusChange = (newStatus) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -42,6 +63,7 @@ const DeviceCard = ({ device, onStatusChange }) => {
     )
     .then((response) => {
       onStatusChange(response.data);
+      setBrightness(newBrightness);
     })
     .catch((error) => {
       console.error('Error updating device brightness:', error);
@@ -53,36 +75,128 @@ const DeviceCard = ({ device, onStatusChange }) => {
     });
   };
 
+  const getIcon = (type) => {
+    switch (type) {
+      case 'Light':
+      case 'Smart Light Strip':
+        return faLightbulb;
+      case 'Thermostat':
+        return faThermometerHalf;
+      case 'Smart Plug':
+        return faPlug;
+      case 'Security Camera':
+        return faVideo;
+      case 'Smart Lock':
+        return faLock;
+      case 'Smart Speaker':
+        return faVolumeUp;
+      case 'Smart Refrigerator':
+      case 'Refrigerator':
+        return faBlender;
+      case 'Smart Oven':
+      case 'Oven':
+        return faBlender;
+      case 'Smart Washer':
+      case 'Washing Machine':
+        return faTrash;
+      case 'Smart Dryer':
+      case 'Dryer':
+        return faTachometerAlt;
+      case 'Smart Vacuum Cleaner':
+      case 'Vacuum Cleaner':
+        return faTrash;
+      case 'Smart Doorbell':
+      case 'Doorbell':
+        return faBell;
+      case 'Smart Smoke Detector':
+      case 'Smoke Detector':
+        return faCloudSun;
+      case 'Smart Fan':
+      case 'Fan':
+        return faFan;
+      case 'Smart TV':
+      case 'TV':
+        return faTv;
+      case 'Smart Coffee Maker':
+      case 'Coffee Maker':
+        return faCoffee;
+      case 'Smart Pet Feeder':
+      case 'Pet Feeder':
+        return faPaw;
+      case 'Smart Sprinkler System':
+      case 'Sprinkler System':
+        return faSprayCan;
+      default:
+        return faDoorOpen;
+    }
+  };
+
+  const renderControls = () => {
+    switch (device.Type) {
+      case 'Light':
+      case 'Smart Light Strip':
+        return (
+          <div>
+            <label htmlFor="brightness">Brightness: {brightness}</label>
+            <input
+              type="range"
+              id="brightness"
+              name="brightness"
+              min="0"
+              max="100"
+              value={brightness}
+              onChange={(e) => handleBrightnessChange(e.target.value)}
+              disabled={device.Status === 'Off'}
+            />
+          </div>
+        );
+      case 'Smart Fan':
+        return (
+          <div>
+            <label htmlFor="speed">Speed: {device.Speed || 1}</label>
+            <input
+              type="range"
+              id="speed"
+              name="speed"
+              min="1"
+              max="5"
+              value={device.Speed || 1}
+              onChange={(e) => console.log(`Set fan speed to ${e.target.value}`)}
+              disabled={device.Status === 'Off'}
+            />
+          </div>
+        );
+      case 'Thermostat':
+        return (
+          <div>
+            <label htmlFor="temperature">Temperature: {device.Temperature || 22}°C</label>
+            <input
+              type="range"
+              id="temperature"
+              name="temperature"
+              min="16"
+              max="30"
+              value={device.Temperature || 22}
+              onChange={(e) => console.log(`Set temperature to ${e.target.value}`)}
+              disabled={device.Status === 'Off'}
+            />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="device-card">
       <h2>{device.Name}</h2>
       <p>{device.Description}</p>
       <img src={device.ImagePath} alt={device.Name} className="device-image" />
       <div className="device-icon">
-        {device.Type === 'Light' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'yellow' : 'gray' }}>brightness_high</i>}
-        {device.Type === 'Temperature Control' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'red' : 'gray' }}>thermostat</i>}
-        {device.Type === 'Smart Plug' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'green' : 'gray' }}>power</i>}
-        {device.Type === 'Security Camera' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'blue' : 'gray' }}>videocam</i>}
-        {device.Type === 'Smart Lock' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'orange' : 'gray' }}>lock</i>}
-        {device.Type === 'Smart Speaker' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'purple' : 'gray' }}>speaker</i>}
-        {device.Type === 'Smart Fridge' && <i className="material-icons" style={{ fontSize: '48px', color: device.Status === 'On' ? 'cyan' : 'gray' }}>kitchen</i>}
+        <FontAwesomeIcon icon={getIcon(device.Type)} style={{ color: device.Status === 'On' ? 'yellow' : 'gray' }} />
       </div>
       <p>Status: {device.Status}</p>
-      {device.Type === 'Light' && (
-        <div>
-          <label htmlFor="brightness">Brightness: {device.Brightness || 50}</label>
-          <input
-            type="range"
-            id="brightness"
-            name="brightness"
-            min="0"
-            max="100"
-            value={device.Brightness || 50}
-            onChange={(e) => handleBrightnessChange(e.target.value)}
-            disabled={device.Status === 'Off'}
-          />
-        </div>
-      )}
+      {renderControls()}
       <button onClick={() => handleStatusChange(device.Status === 'On' ? 'Off' : 'On')}>
         Turn {device.Status === 'On' ? 'Off' : 'On'}
       </button>
